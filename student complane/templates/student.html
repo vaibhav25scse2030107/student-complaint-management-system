@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal – Submit Complaint</title>
+    <meta name="description" content="Submit your complaint as a student securely and track its status.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/student.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="portal-header student-header">
+            <div class="header-left">
+                <a href="/" class="back-btn" id="backHomeBtn">← Home</a>
+                <div class="header-brand">
+                    <span class="portal-badge student-badge">🎒 Student Portal</span>
+                </div>
+            </div>
+            <h1>Submit a Complaint</h1>
+            <p>Your voice matters. All complaints are reviewed by faculty.</p>
+        </header>
+
+        <main class="student-main">
+            <!-- Complaint Form -->
+            <section class="card form-card">
+                <h2>📝 New Complaint</h2>
+                <form id="complaintForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentName">Full Name</label>
+                            <input type="text" id="studentName" placeholder="e.g. Tanu Dhiman" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentId">Student ID</label>
+                            <input type="text" id="studentId" placeholder="e.g. STU-2024" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <select id="department" required>
+                                <option value="">Select Department</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Arts & Humanities">Arts & Humanities</option>
+                                <option value="Business">Business</option>
+                                <option value="Medical">Medical</option>
+                                <option value="Law">Law</option>
+                                <option value="Facilities">Facilities</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Academic">Academic</option>
+                                <option value="Infrastructure">Infrastructure</option>
+                                <option value="Hostel">Hostel</option>
+                                <option value="Library">Library</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Fee / Finance">Fee / Finance</option>
+                                <option value="Ragging">Ragging</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="priority">Priority Level</label>
+                            <select id="priority" required>
+                                <option value="Low" selected>Low (Routine Issue)</option>
+                                <option value="Medium">Medium (Needs Attention)</option>
+                                <option value="High">High (Important)</option>
+                                <option value="Urgent">Urgent (Immediate Action Required)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complaintText">Issue Description</label>
+                        <textarea id="complaintText" rows="5" required placeholder="Describe your issue clearly and in detail..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span id="submitBtnText">Submit Complaint</span>
+                        <span id="submitBtnSpinner" class="spinner hidden"></span>
+                    </button>
+                </form>
+
+                <!-- Toast notification -->
+                <div id="toast" class="toast hidden"></div>
+            </section>
+
+            <!-- My Complaints (by Student ID lookup) -->
+            <section class="card my-complaints-card">
+                <h2>🔍 Track My Complaints</h2>
+                <div class="track-bar">
+                    <input type="text" id="trackId" placeholder="Enter your Student ID to search...">
+                    <button class="btn btn-outline" id="trackBtn" onclick="trackComplaints()">Search</button>
+                </div>
+                <div id="myComplaintList" class="complaint-list">
+                    <div class="empty-state">Enter your Student ID above to see your complaints.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/student.js"></script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

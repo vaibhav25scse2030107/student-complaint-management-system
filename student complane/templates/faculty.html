@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard – Complaint Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/faculty.css">
+</head>
+
+<body>
+    <div class="faculty-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span style="font-size:1.5rem">👩‍🏫</span>
+                <span>Faculty Portal</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="navAll" onclick="filterComplaints('all')">
+                    <span>📋</span> All Complaints
+                </a>
+                <a href="#" class="nav-item" id="navPending" onclick="filterComplaints('Pending')">
+                    <span>⏳</span> Pending
+                    <span class="nav-count" id="countPending">0</span>
+                </a>
+                <a href="#" class="nav-item" id="navProgress" onclick="filterComplaints('In Progress')">
+                    <span>🔄</span> In Progress
+                    <span class="nav-count" id="countProgress">0</span>
+                </a>
+                <a href="#" class="nav-item" id="navResolved" onclick="filterComplaints('Resolved')">
+                    <span>✅</span> Resolved
+                    <span class="nav-count" id="countResolved">0</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="logged-in-user">
+                    <span class="user-avatar">👤</span>
+                    <div>
+                        <div class="user-name">{{ username }}</div>
+                        <div class="user-role">Faculty Member</div>
+                    </div>
+                </div>
+                <a href="/faculty/logout" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="faculty-main">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <button id="sidebarToggle" onclick="document.querySelector('.faculty-layout').classList.toggle('sidebar-collapsed')" style="background: var(--surface-2); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1.2rem; cursor: pointer; color: var(--text-main); padding: 0.4rem 0.6rem; margin-top: 0.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        ☰
+                    </button>
+                    <div>
+                        <h1 class="page-title">Complaints Dashboard</h1>
+                        <p class="page-subtitle">Review and manage all student complaints</p>
+                    </div>
+                </div>
+                <div class="top-bar-actions">
+                    <input type="text" id="searchInput" placeholder="🔍  Search by name, ID, department..."
+                        class="search-input" oninput="searchComplaints()">
+                    <button class="btn-refresh" id="refreshDashBtn" onclick="loadComplaints()">↺ Refresh</button>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-num" id="statTotal">—</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-num" id="statPending">—</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card progress">
+                    <div class="stat-num" id="statProgress">—</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card resolved">
+                    <div class="stat-num" id="statResolved">—</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+            </div>
+
+            <!-- Complaints List -->
+            <div class="complaints-area">
+                <div id="complaintList" class="complaint-grid">
+                    <div class="empty-state">Loading complaints...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/faculty.js"></script>
+    <script src="/static/js/theme.js"></script>
+</body>
+
+</html>

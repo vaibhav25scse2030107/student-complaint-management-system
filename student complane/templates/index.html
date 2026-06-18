@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Complaint System</title>
+    <meta name="description" content="Student Complaint Portal - Submit and manage student complaints securely.">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .landing {
+            text-align: center;
+            max-width: 860px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: particleFloat linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes particleFloat {
+            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* Header */
+        .landing-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.4rem 1.1rem;
+            border-radius: 999px;
+            margin-bottom: 1.75rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            animation: fadeInDown 0.5s ease-out;
+        }
+
+        .landing-badge .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #3b82f6;
+            animation: pulseGlow 2s infinite;
+        }
+
+        .landing h1 {
+            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            animation: fadeInDown 0.6s ease-out;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 40%, #f472b6 70%, #fbbf24 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 0.6s ease-out, shimmer 6s linear infinite;
+        }
+
+        .landing > p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+            animation: fadeInDown 0.7s ease-out;
+        }
+
+        /* Portal Cards */
+        .portals {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            animation: fadeIn 0.9s ease-out;
+        }
+
+        @media (max-width: 600px) { .portals { grid-template-columns: 1fr; } }
+
+        .portal-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.85rem;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            transition: height 0.3s ease;
+        }
+
+        .portal-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .portal-card.student::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+        .portal-card.faculty::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+
+        .portal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .portal-card:hover::after { opacity: 1; }
+        .portal-card:hover::before { height: 4px; }
+
+        .portal-card.student:hover { border-color: rgba(59,130,246,0.25); box-shadow: var(--shadow-lg), var(--shadow-glow-blue); }
+        .portal-card.faculty:hover { border-color: rgba(139,92,246,0.25); box-shadow: var(--shadow-lg), var(--shadow-glow-purple); }
+
+        .portal-icon {
+            width: 80px; height: 80px;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .portal-card.student .portal-icon { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.15); animation-delay: 0s; }
+        .portal-card.faculty .portal-icon { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.15); animation-delay: 1s; }
+
+        .portal-card h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-bright);
+            position: relative;
+            z-index: 1;
+        }
+
+        .portal-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .portal-btn {
+            margin-top: 0.5rem;
+            padding: 0.7rem 1.75rem;
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: none;
+            color: white;
+            letter-spacing: 0.02em;
+            position: relative;
+            z-index: 1;
+            transition: all 0.2s;
+        }
+
+        .portal-card.student .portal-btn { background: var(--gradient-cool); box-shadow: 0 4px 16px var(--blue-glow); }
+        .portal-card.faculty .portal-btn { background: linear-gradient(135deg, #8b5cf6, #ec4899); box-shadow: 0 4px 16px var(--purple-glow); }
+
+        .portal-btn:hover { transform: scale(1.03); }
+
+        /* Footer */
+        .footer-note {
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            animation: fadeIn 1.2s ease-out;
+            opacity: 0.5;
+        }
+
+        .footer-note a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="landing">
+        <div class="landing-badge"><span class="dot"></span> Student Complaint System</div>
+        <h1>Choose Your Portal</h1>
+        <p>Students can submit complaints and track progress. Faculty members can review, manage, and resolve issues.</p>
+
+        <div class="portals">
+            <a href="/student" class="portal-card student" id="studentPortalBtn">
+                <div class="portal-icon">🎒</div>
+                <h2>Student Portal</h2>
+                <p>Submit a new complaint and track the status of your previously submitted issues.</p>
+                <span class="portal-btn">Enter as Student →</span>
+            </a>
+
+            <a href="/faculty" class="portal-card faculty" id="facultyPortalBtn">
+                <div class="portal-icon">👩‍🏫</div>
+                <h2>Faculty Portal</h2>
+                <p>View all student complaints, update their status, and manage resolutions.</p>
+                <span class="portal-btn">Enter as Faculty →</span>
+            </a>
+        </div>
+
+        <p class="footer-note">Faculty portal is password protected · Data stored securely on <a href="#">MongoDB Atlas</a></p>
+    </div>
+
+    <script>
+    // Generate floating particles
+    const container = document.getElementById('particles');
+    const colors = ['rgba(59,130,246,0.3)', 'rgba(139,92,246,0.3)', 'rgba(236,72,153,0.2)', 'rgba(6,182,212,0.2)'];
+    for (let i = 0; i < 30; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 4 + 1;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        container.appendChild(p);
+    }
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Login – Complaint Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+
+        .login-box {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 420px;
+            animation: fadeInDown 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa, #f472b6);
+        }
+
+        .login-icon {
+            width: 64px; height: 64px;
+            border-radius: 1rem;
+            background: rgba(139,92,246,0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.25rem;
+        }
+
+        .login-box h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+        }
+
+        .login-box p {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input {
+            width: 100%;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.8rem 1rem;
+            border-radius: 0.65rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        input:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,0.2); }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 0.875rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 0.5rem;
+            font-family: inherit;
+        }
+
+        .btn-login:hover { opacity: 0.88; }
+        .btn-login:active { transform: translateY(1px); }
+
+        .error-msg {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5;
+            border-radius: 0.5rem;
+            padding: 0.65rem 1rem;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--text-main); }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-icon">👩‍🏫</div>
+        <h1>Faculty Login</h1>
+        <p>Sign in to manage and resolve student complaints.</p>
+
+        <div class="error-msg" id="errorMsg">❌ Invalid username or password.</div>
+
+        <form id="loginForm" method="POST" action="/faculty/login">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter faculty username" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
+            </div>
+
+            {% if error %}
+            <div class="error-msg" style="display:block">❌ {{ error }}</div>
+            {% endif %}
+
+            <button type="submit" class="btn-login" id="loginBtn">Sign In to Faculty Portal</button>
+        </form>
+
+        <a href="/faculty/forgot" class="back-link" style="color:#fbbf24; margin-top:1.5rem">🔑 Forgot Username / Password?</a>
+        <a href="/" class="back-link" style="margin-top:0.75rem">← Back to Home</a>
+    </div>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>
